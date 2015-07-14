@@ -21,7 +21,7 @@ Then, when can use the following HTML in your document, the DOM element will inh
 If you've got time, read [the draft spec][spec]. Otherwise, read on for some basic usage examples and gotchas.
 
 ## [Can I Use Them?](http://caniuse.com/#feat=custom-elements)
-If you're using Chrome 36+, **yes**! You can *test* them natively. If you're delivering web software for public use, though, you're going to need [this awesome polyfill](https://github.com/WebReflection/document-register-element) for the [`document.registerElement()`][document.registerElement] API.
+If you're using Chrome 36+, **yes**! You can *test* them natively. If you're delivering web software for public use, though, you're going to need [this awesome polyfill](https://github.com/WebReflection/document-register-element) for the [`document.registerElement()`][document.registerElement] API. It even works in IE8 with some additional dependencies!
 
 ## Usage
 
