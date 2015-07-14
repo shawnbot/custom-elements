@@ -42,7 +42,7 @@ document.registerElement('custom-element', {
 });
 ```
 
-:warning: **If you're looking to extend an SVG element, you'll need to use [type extension](#type-extensions).**
+:warning: **If you're looking to extend an SVG element, you'll *probably* want to use [type extension](#type-extensions).**
 
 ### Type Extensions
 In addition to specifying behavior for a custom element *name*, you can also create a [type extension](http://www.w3.org/TR/custom-elements/#dfn-type-extension) that adds behaviors to an existing HTML element with its own [semantics](http://www.w3.org/TR/custom-elements/#semantics) using the `is` attribute:
