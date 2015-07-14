@@ -23,10 +23,10 @@ If you've got time, read [the draft spec](www.w3.org/TR/custom-elements/). Other
 ## [Can I Use Them?](http://caniuse.com/#feat=custom-elements)
 If you're using Chrome 36+, **yes**! You can *test* them natively. If you're delivering web software for public use, though, you're going to need [this awesome polyfill](https://github.com/WebReflection/document-register-element) for the `document.registerElement()` API.
 
-## The Rules
+## Usage
 
 ### Custom Element Names
-Your custom element name must contain a `-`. There are some [reserved names](http://www.w3.org/TR/custom-elements/#concepts), but they're pretty obtuse.
+Custom element name **must** contain a `-` (hyphen). There are some [reserved names](http://www.w3.org/TR/custom-elements/#concepts), but they're pretty obtuse. Generic custom elements are sometimes prefixed with `x-`, as popularized by the [X-Tag](http://x-tags.org/) project.
 
 ### Base Class
 Custom elements should include a "base class" that provides the standard HTML Element interface. Unless you're looking to extend a specific element's API (such as `<img>`), you can extend `HTMLElement.prototype`:
