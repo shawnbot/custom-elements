@@ -107,6 +107,38 @@ document.registerElement('x-glossary', {
 
 3. Any descriptor can also specify the `configurable` and `enumerable` properties.
 
+### Lifecycle Callbacks
+***TODO***
+
+1. Created
+2. Attached
+3. Attribute changed
+4. Detached
+
+### Events
+You can trigger custom events from within your custom elements using the [W3C DOM4 Events][dom4-events] API. For instance, you could define a `content` accessor on your custom element that, when changed, dispatches a `change` event:
+
+```js
+document.registerElement('content-thing', {
+  prototype: Object.create(
+    HTMLElement.prototype,
+    {
+      content: {
+        get: function() { return this.textContent; },
+        set: function(content) {
+          if (content != this.content) {
+            this.textContent = content || '';
+            this.dispatchEvent(new CustomEvent('change'));
+          }
+        }
+      }
+    }
+  )
+});
+```
+
 [spec]: http://www.w3.org/TR/custom-elements/
 [document.registerElement]: https://developer.mozilla.org/en-US/docs/Web/API/Document/registerElement
 [Object.defineProperty]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
+[dom4-events]: http://www.w3.org/TR/2015/WD-dom-20150618/#events
+
