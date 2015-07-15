@@ -1,0 +1,4 @@
+markdown: redcarpet
+redcarpet:
+  syntax_highlighter: rouge
+
