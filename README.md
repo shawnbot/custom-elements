@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # HTML Custom Elements
 
 ## What Are They?
