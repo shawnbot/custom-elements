@@ -45,7 +45,7 @@ document.registerElement('custom-element', {
 :warning: **If you're looking to extend an SVG element, you'll *probably* want to use [type extension](#type-extensions) to avoid any potential namespace issues. See [the spec](http://www.w3.org/TR/custom-elements/#registering-custom-elements) for more information.**
 
 ### Type Extensions
-In addition to specifying behavior for a custom element *name*, you can also create a [type extension](http://www.w3.org/TR/custom-elements/#dfn-type-extension) that adds behaviors to an existing HTML element with its own [semantics](http://www.w3.org/TR/custom-elements/#semantics) using the `is` attribute:
+In addition to specifying behavior for a custom element *name*, you can also create a [type extension](http://www.w3.org/TR/custom-elements/#dfn-type-extension) that adds behaviors to a standard existing HTML element using the `is` attribute. This is specifically recommended for elements with with their own [semantics](http://www.w3.org/TR/custom-elements/#semantics), such as `<table>`, `<a>`, `<button>`, etc.
 
 ```html
 <dl is="x-glossary">
@@ -64,6 +64,12 @@ document.registerElement('x-glossary', {
     }
   )
 });
+```
+
+If you're using type extensions you can create an instance of your custom element by passing the extension name as the second argument to `document.createElement()`:
+
+```js
+var glossary = document.createElement('dl', 'x-glossary');
 ```
 
 ### Prototype Descriptors
