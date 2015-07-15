@@ -28,6 +28,9 @@ If you're using Chrome 36+, **yes**! You can *test* them natively. If you're del
 ### Custom Element Names
 Custom element name **must** contain a `-` (hyphen). There are some [reserved names](http://www.w3.org/TR/custom-elements/#concepts), but they're pretty obtuse. Generic custom elements are sometimes prefixed with `x-`, as popularized by the [X-Tag](http://x-tags.org/) project.
 
+#### Semantics
+Custom element creators are encouraged to [declare your element's semantics][declared semantics] using [ARIA roles][ARIA roles], [states and properties][ARIA states and properties].
+
 ### Base Class
 Custom elements should include a "base class" that provides the standard HTML Element interface. Unless you're looking to extend a specific element's API (such as `<img>`), you can extend `HTMLElement.prototype`:
 
@@ -160,4 +163,6 @@ document.registerElement('content-thing', {
 [document.registerElement]: https://developer.mozilla.org/en-US/docs/Web/API/Document/registerElement
 [Object.defineProperty]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
 [dom4-events]: http://www.w3.org/TR/2015/WD-dom-20150618/#events
-
+[declared semantics]: https://github.com/webcomponents/gold-standard/wiki/Declared-Semantics
+[ARIA roles]: http://www.w3.org/TR/wai-aria/roles
+[ARIA states and properties]: http://www.w3.org/TR/wai-aria/states_and_properties
