@@ -78,7 +78,7 @@ document.registerElement('x-glossary', {
       {
         // element.doSomething()
         doSomething: {value: function() {
-        }},
+        }}
       }
     )
   });
@@ -108,12 +108,25 @@ document.registerElement('x-glossary', {
 3. Any descriptor can also specify the `configurable` and `enumerable` properties.
 
 ### Lifecycle Callbacks
-***TODO***
+Custom elements support four "lifecycle" callback functions that you register by adding them to the element's `prototype` definition:
 
-1. Created
-2. Attached
-3. Attribute changed
-4. Detached
+#### Created: `createdCallback()`
+This function is called when the custom element in instantiated, either when an element already on the page is registered or when one is created programmatically:
+
+```js
+var element = document.createElement('custom-element');
+// or, with type extension:
+var elemeent = document.createElement('dl', 'x-glossary');
+```
+
+#### Attached: `attachedCallback()`
+This function is called when the element is attached to the document via `parent.appendChild()`.
+
+#### Attribute changed: `attributeChangedCallback(name, previousValue, newValue)`
+This function is called whenever an attribute of the element is changed.
+
+#### Detached: `detachedCallback()`
+This function is called when the element is removed from the document via `parent.removeChild()`.
 
 ### Events
 You can trigger custom events from within your custom elements using the [W3C DOM4 Events][dom4-events] API. For instance, you could define a `content` accessor on your custom element that, when changed, dispatches a `change` event:
