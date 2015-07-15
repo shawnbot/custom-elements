@@ -42,7 +42,7 @@ document.registerElement('custom-element', {
 });
 ```
 
-:warning: **If you're looking to extend an SVG element, you'll *probably* want to use [type extension](#type-extensions).**
+:warning: **If you're looking to extend an SVG element, you'll *probably* want to use [type extension](#type-extensions) to avoid any potential namespace issues. See [the spec](http://www.w3.org/TR/custom-elements/#registering-custom-elements) for more information.**
 
 ### Type Extensions
 In addition to specifying behavior for a custom element *name*, you can also create a [type extension](http://www.w3.org/TR/custom-elements/#dfn-type-extension) that adds behaviors to an existing HTML element with its own [semantics](http://www.w3.org/TR/custom-elements/#semantics) using the `is` attribute:
@@ -120,10 +120,10 @@ var elemeent = document.createElement('dl', 'x-glossary');
 ```
 
 #### Attached: `attachedCallback()`
-This function is called when the element is attached to the document via `parent.appendChild()`.
+This function is called when the element is attached to the document via `parent.appendChild()`, or when an element already on the page is registered.
 
 #### Attribute changed: `attributeChangedCallback(name, previousValue, newValue)`
-This function is called whenever an attribute of the element is changed.
+This function is called whenever an attribute of the element is changed. If the attribute wasn't set previously then `previousValue` will be `null`, and if the attribute is removed (via `element.removeAttribute(name)`) then `newValue` will be `null`.
 
 #### Detached: `detachedCallback()`
 This function is called when the element is removed from the document via `parent.removeChild()`.
