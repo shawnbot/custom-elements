@@ -163,6 +163,10 @@ document.registerElement('content-thing', {
 });
 ```
 
+## Resources
+* [Custom Elements (.io)](https://customelements.io/)
+* [Component Kitchen](http://component.kitchen/)
+
 [spec]: http://www.w3.org/TR/custom-elements/
 [document.registerElement]: https://developer.mozilla.org/en-US/docs/Web/API/Document/registerElement
 [Object.defineProperty]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
