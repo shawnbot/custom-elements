@@ -30,7 +30,7 @@ If you're using Chrome 36+, **yes**! You can *test* them natively. If you're del
 ## Usage
 
 ### Custom Element Names
-Custom element name **must** contain a `-` (hyphen). There are some [reserved names](http://www.w3.org/TR/custom-elements/#concepts), but they're pretty obtuse. Generic custom elements are sometimes prefixed with `x-`, as popularized by the [X-Tag](http://x-tags.org/) project.
+Custom element name **must** contain a `-` (hyphen). There are some [reserved names](http://www.w3.org/TR/custom-elements/#concepts), but they're pretty obscure. Generic custom elements are sometimes prefixed with `x-`, as popularized by the [X-Tag](http://x-tags.org/) project.
 
 #### Semantics
 Custom element creators are encouraged to [declare your element's semantics][declared semantics] using [ARIA roles][ARIA roles], [states and properties][ARIA states and properties].
@@ -97,7 +97,7 @@ var glossary = document.createElement('dl', 'x-glossary');
   });
   ```
   
-2. Property descriptors should be objects with `get` and (optionally) `set` property.
+2. Property descriptors should be objects with `get` and (optionally) `set` properties.
 
   ```js
   document.registerElement('foo-bar', {
@@ -135,7 +135,7 @@ var elemeent = document.createElement('dl', 'x-glossary');
 #### Attached: `attachedCallback()`
 This function is called when the element is attached to the document via `parent.appendChild()`, or when an element already on the page is registered.
 
-#### Attribute changed: `attributeChangedCallback(name, previousValue, newValue)`
+#### Attribute changed: `attributeChangedCallback(name, oldValue, newValue)`
 This function is called whenever an attribute of the element is changed. If the attribute wasn't set previously then `previousValue` will be `null`, and if the attribute is removed (via `element.removeAttribute(name)`) then `newValue` will be `null`.
 
 #### Detached: `detachedCallback()`
