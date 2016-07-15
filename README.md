@@ -33,20 +33,27 @@ You can also extend built-in elements using the "is" attribute:
 ## Why Custom Elements?
 * **Encapsulation.** Custom element names avoid ambiguity in
   markup (versus, say, a `<div>` or `<span>` with a "special"
-  class), and provide a solid foundation for scoped styles. If
-  you've ever felt like it was wrong to define reuseable
-  components with "special" class names initialized by jQuery
-  selections that could only be called after the DOM is ready,
-  then custom elements might just be your new jam.
+  class), and provide a solid foundation for scoped styles.
+
+  * If you've ever felt like it was wrong to define reuseable
+    components with "special" class names initialized by jQuery
+    selections that can only be called after the DOM is ready or
+    rely on mutation observers to watch for new instances, then
+    custom elements could be your new jam.
+
+  * In native implementations (see [browser support](#browser-support)),
+    you can target custom elements before (`:unresolved` in the
+    [v1 spec]) and after (`:defined` in the [v2 spec][spec]) they've
+    been registered via JavaScript.
 
 * **Web Standards.** Custom elements are a working draft W3C
   [specification][spec]. That means that—in theory, at least—they
   will _eventually_ be implemented natively in all modern browsers
   with the same API. The same cannot be said for other tools that
   implement the more general concept of _web components_, such as
-  [Angular], [React], or [Vue.js]. ([Polymer], on the other hand,
-  is based _entirely_ on draft standard technologies, including
-  custom elements.)
+  [Angular], [React], or [Vue.js]. ([Polymer] and [X-Tag], on the
+  other hand, are based _entirely_ on draft standard technologies,
+  including custom elements.)
 
 
 ## How do they work?
@@ -71,8 +78,8 @@ different element _lifecycle events_:
 **Don't let the fact that the [Custom Elements specification][spec] is a
 working draft scare you!**
 
-As of this writing, Chrome has already implemented the [v1 spec], and
-both Safari and Firefox are working on their own implementations of
+As of this writing, Chrome has already [implemented][Chrome] the [v1 spec],
+and both [Safari] and [Firefox] are working on their own implementations of
 [v2](#v2). Regardless of which browsers end up implementing which spec
 (if any), the v1 spec is "frozen" (meaning it will not change), and
 there are several solid [polyfills](#polyfills) that bring custom
@@ -351,7 +358,14 @@ There are a couple of ways to do this:
     superclass constructor essentially ignored?
 
 ## Polyfills
+There are at least two polyfills for the v1 spec that are worth trying out:
 
+1. [document-register-element] is a small, standalone, light-weight (3K)
+   polyfill that has served me well on several projects and offers browser
+   support back to IE9 out of the box, and IE8 with some additional scripts.
+1. The [WebComponents.js] suite of polyfills includes a Custom Elements
+   "shim" was made specifically to support web component libraries built on
+   top of web standards, such as [Polymer], [Bosonic], and [X-Tag].
 
 [spec]: https://www.w3.org/TR/custom-elements/
 [v1 spec]: https://www.w3.org/TR/2016/WD-custom-elements-20160226/
@@ -365,3 +379,10 @@ There are a couple of ways to do this:
 [Angular]: https://angularjs.org/
 [React]: https://facebook.github.io/react/
 [Vue.js]: https://vuejs.org/
+[Chrome]: https://www.chromestatus.com/feature/4696261944934400
+[Firefox]: https://bugzilla.mozilla.org/show_bug.cgi?id=889230
+[Safari]: https://bugs.webkit.org/show_bug.cgi?id=150225
+[WebComponents.js]: https://github.com/webcomponents/webcomponentsjs
+[document-register-element]: https://github.com/WebReflection/document-register-element
+[Bosonic]: https://bosonic.github.io/
+[X-Tag]: https://x-tag.github.io/
