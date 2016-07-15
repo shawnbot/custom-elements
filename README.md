@@ -1,10 +1,12 @@
 # WTF are HTML custom elements?
-Custom elements is a W3C _working draft_ [specification][spec] that
+Custom elements is a W3C "working draft" [specification][spec] that
 provides a mechanism for defining custom behaviors (such as dynamic
 content or interactivity) for HTML elements with custom names.
 
-Custom elements are just HTML elements! The only constraint is that
-they _must_ contain at least one hyphen (`-`):
+Custom elements are just HTML elements! They have all of the
+methods and properties of other HTML elements. The only real
+constraint is that their names must contain at least one hyphen
+(`-`):
 
 ```html
 <message-element>Hi!</message-element>
@@ -17,6 +19,15 @@ they _must_ contain at least one hyphen (`-`):
 You can also extend built-in elements using the "is" attribute:
 <input is="date-picker" type="date">
 ```
+
+## Table of Contents
+1. [Custom Elements: How do they work?](#how-do-they-work)
+1. [Browser Support](#browser-support)
+1. [Custom Elements v1 API](#v1)
+1. [Type Extension](#type-extension)
+1. [Custom Elements v2 API](#v2)
+1. [Gotchas](#gotchas)
+1. [Polyfills](#polyfills)
 
 ## How do they work?
 Custom element behaviors are added at runtime (whenever the
@@ -102,6 +113,34 @@ and the following static (class) properties:
    which the `attributeChangedCallback()` will be called. If you do not
    provide this property, the callback will fire for all attributes.
 
+  ```js
+  // ES5
+  var CounterElement = {
+    observedAttributes: ['value'],
+    prototype: Object.create(
+      HTMLElement.prototype,
+      {
+        attributeChangedCallback: {value: function(name, old, value) {
+          // we can safely ignore name here because 'value' is the only
+          // observed attribute
+          this.value = value;
+        }},
+        
+        value: {
+          get: function() {
+            return ('_value' in this)
+              ? this._value
+              : (this._value = 0);
+          },
+          set: function(value) {
+            this._value = value;
+          }
+        }
+      }
+    )
+  };
+  ```
+
 ## Type Extension
 Custom elements that extend built-in HTML elements with special
 semantics or behaviors (such as `<button>` or `<input>`) must use a
@@ -148,8 +187,10 @@ has been developed, and which consists of a slightly different API for
 registering custom elements:
 
 ```js
-// similar to v1's document.registerElement(), but with options
-customElements.define('element-name', ElementClass, options);
+// similar to v1's document.registerElement():
+customElements.define('element-name', ElementClass);
+// except that 'extends' is passed in the options argument
+customElements.define('fancy-image', ElementClass, {extends: 'img'});
 ```
 
 As with the [v1 API](#v1), the `ElementClass` can be either a first-class
@@ -180,10 +221,123 @@ The v2 API observes the following instance (prototype) methods:
 The v2 API [specifies][CustomElementsRegistry] two additional methods on
 the global `customElements` object:
 
-* `customElements.get('element-name')` returns the constructor 
+* `customElements.get('element-name')` returns the constructor of the
+  provided custom element name, or `undefined`.
+* `customElements.whenDefined('element-name')` returns a Promise that
+  resolves if/when the named custom element is defined via
+  `customElements.define()`.
+
+## Gotchas
+
+### Class Definition
+One of the trickiest things about custom elements is the magical incantation
+for defining element classes that extend `HTMLElement` or its subclasses.
+There are a couple of ways to do this:
+
+1. Create an object literal (rather than a proper constructor function) with
+   a `prototype` that extends `HTMLElement.prototype`. The only way to do this
+   in a single expression is to use [`Object.create()`][Object.create], which
+   extends the first argument with _descriptors_ in the second. The important
+   thing to note here is that because these are property descriptors, methods
+   must be provided as objects with a `value` property:
+
+  ```js
+  // ES5
+  var CustomElement = {
+    prototype: Object.create(
+      HTMLElement.prototype,
+      {
+        // this will NOT work:
+        createdCallback: function() {
+        },
+        // but this will:
+        createdCallback: {value: function() {
+        }},
+        
+        // accessors look like this:
+        someValue: {
+          get: function() { /* ... */ },
+          set: function(value) { /* ... */ }
+        }
+      }
+    )
+  };
+  ```
+  
+  **Note:** if you need to support older browsers such as IE8 or below,
+  you will also need a polyfill or shim for ES5 standard APIs, such as
+  [aight] or [es5-shim].
+  
+1. A variation on the above method uses [`Object.create()`][Object.create]
+   but assigns methods directly:
+
+  ```js
+  // ES5
+  var CustomElement = {
+    prototype: Object.create(HTMLElement.prototype)
+  };
+  
+  CustomElement.prototype.someMethod = function(arg) { /* ... */ };
+  
+  // any accessors not passed to Object.create() can be defined like so.
+  // note that this is *exactly* what Object.create() is doing under the
+  // hood!
+  Object.defineProperties(CustomElement.prototype, {
+    someValue: {
+      get: function() { /* ... */ },
+      set: function(value) { /* ... */ }
+    }
+  });
+  ```
+
+1. Use prototypal inheritance.
+  * In the [v1 API](#v1) the constructor is essentially ignored, so you don't
+    have to call the superclass constructor, and all of your constructor-like
+    logic goes in the `createdCallback()` class method:
+
+    ```js
+    // ES5
+    var CustomElement = function() { /* this is never called */ };
+    CustomElement.prototype = Object.create(HTMLElement.prototype, {
+      createdCallback: {value: function() {
+        console.log("it's alive!");
+      }
+      // other descriptors here
+    });
+    ```
+    
+  * In the [v2 API](#v2) the constructor _is_ called, and there is no
+    `createdCallback()`. In ES2015/ES6, this couldn't be simpler:
+
+    ```js
+    // ES2016/ES6
+    class CustomElement extends HTMLElement {
+      constructor() {
+        super();
+        // created logic goes here
+      }
+      
+      connectedCallback() { /* ... */ }
+
+      someOtherMethod() { /* ... */ }
+      
+      get someValue() { /* ... */ }
+      set someValue(value) { /* ... */ }
+    }
+    ```
+    
+    :construction: **I'm honestly not sure how this will be handled
+    natively in ES5, though.** Does the constructor get called, and
+    is the superclass constructor essentially ignored?
+
+## Polyfills
+
 
 [spec]: https://www.w3.org/TR/custom-elements/
 [v1 spec]: https://www.w3.org/TR/2016/WD-custom-elements-20160226/
 [caniuse]: http://caniuse.com/#feat=custom-elements
 [HTMLElement]: https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement
 [CustomElementsRegistry]: https://www.w3.org/TR/custom-elements/#custom-elements-api
+[Object.create]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create
+[aight]: https://github.com/shawnbot/aight
+[es5-shim]: https://github.com/es-shims/es5-shim
