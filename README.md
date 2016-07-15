@@ -1,11 +1,11 @@
 # All about HTML Custom Elements
 Custom Elements is a W3C "working draft" [specification][spec] that
-provides a mechanism for defining custom behaviors (such as dynamic
+provides a mechanism for defining new behaviors (such as dynamic
 content or interactivity) for HTML elements with custom names.
 
 Custom elements are just HTML elements, with all of the methods and
-properties of other, built-in elements. The only real constraint is
-that their names must contain at least one hyphen (`-`).
+properties of other, built-in elements. The only real constraint[*](#gotchas)
+is that their names must contain at least one hyphen (`-`).
 
 ```html
 <message-element>Hi!</message-element>
