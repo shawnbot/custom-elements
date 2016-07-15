@@ -1,5 +1,5 @@
-# WTF are HTML custom elements?
-Custom elements is a W3C "working draft" [specification][spec] that
+# All about HTML Custom Elements
+Custom Elements is a W3C "working draft" [specification][spec] that
 provides a mechanism for defining custom behaviors (such as dynamic
 content or interactivity) for HTML elements with custom names.
 
