@@ -55,6 +55,10 @@ You can also extend built-in elements using the "is" attribute:
   [React]) under the hood, I've found custom elements made with
   vanilla JS to be easier to grok and read.
 
+  Put another way: **The DOM isn't going away any time soon**, and
+  custom elements provide a solid conceptual _and_ technical
+  foundation on which all sorts of amazing things can be built.
+
 * **Web Standards.** Custom elements are a working draft W3C
   [specification][spec]. That means that—in theory, at least—they
   will _eventually_ be implemented natively in all modern browsers
