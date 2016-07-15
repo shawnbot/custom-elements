@@ -417,9 +417,9 @@ There are a number of tools built on top of the custom elements spec(s)
 that handle a lot of the nitty-gritty details of component implementation.
 The two big ones are:
 
-1. [Polymer] is a Google project with tons of features and a massive,
-   ongoing development effort behind it. I have a couple of qualms with it,
-   though, namely:
+* [Polymer] is a Google project with tons of features and a massive,
+  ongoing development effort behind it. I have a couple of qualms with it,
+  though, namely:
 
   * It tries to do too much. If you don't need or want two-way data binding,
     or many of the other whiz-bang features that Polymer offers, you're
@@ -432,12 +432,19 @@ The two big ones are:
   * Polymer still suggests Bower as its package manager, even though one of
     Bower's maintainers has suggested [not to use it anymore](https://gofore.com/stop-using-bower/).
 
-1. [X-Tag] is a succinct wrapper around the custom elements v1 API that
-   abstracts away a lot of the boring and/or tricky things about component
-   development, such as event delegation (listening for events at the
-   component level that originate from specific elements) and attribute
-   reflection (syncing attribute and property values). X-Tag was originally
-   made, then promptly abandoned, by Mozilla; but it's now actively
+  Bottom line: Polymer is more of an application development framework than
+  a custom element framework.
+
+* [Skate](https://customelements.io/skatejs/skatejs/) "focuses on size,
+  performance and is built around a functional rendering pipeline", weighing
+  in at just 4K gzipped.
+
+* [X-Tag] is a succinct wrapper around the custom elements v1 API that
+  abstracts away a lot of the boring and/or tricky things about component
+  development, such as event delegation (listening for events at the
+  component level that originate from specific elements) and attribute
+  reflection (syncing attribute and property values). X-Tag was originally
+  made, then promptly abandoned, by Mozilla; but it's now actively
    maintained by Microsoft.
 
 [spec]: https://www.w3.org/TR/custom-elements/
