@@ -7,14 +7,15 @@ Custom elements are just HTML elements! The only constraint is that
 they _must_ contain at least one hyphen (`-`):
 
 ```html
-<my-element></my-element>
-
-<date-picker value="2016-06-12"></date-picker>
+<message-element>Hi!</message-element>
 
 <super-section>
   <p>Custom elements can contain content!</p>
-  <super-button>And other custom elements!</super-button>
+  <message-element>And other custom elements!</message-element>
 </super-section>
+
+You can also extend built-in elements using the "is" attribute:
+<input is="date-picker" type="date">
 ```
 
 ## How do they work?
@@ -35,15 +36,23 @@ different element _lifecycle events_:
    [observed attributes](#observed-attributes) if you only care about
    attributes unique to your element.
 
-## The Spec
+## Browser Support
 **Don't let the fact that the [Custom Elements specification][spec] is a
-working draft scare you!** As of this writing, Chrome has already
-implemented an early version of the spec, and both Safari and Firefox
-are working on their own implementations. Regardless of which browsers
-end up implementing the spec, the [v1 spec](#v1) is "frozen" (meaning it
-will not change), and there are several solid [polyfills](#polyfills)
-that bring custom elements v1 support to just about every browser
-(including IE8!).
+working draft scare you!**
+
+As of this writing, Chrome has already implemented the [v1 spec], and
+both Safari and Firefox are working on their own implementations of
+[v2](#v2). Regardless of which browsers end up implementing which spec
+(if any), the v1 spec is "frozen" (meaning it will not change), and
+there are several solid [polyfills](#polyfills) that bring custom
+element support to just about every browser—including IE8!
+
+That said, when using custom elements—or anything involving JavaScript,
+for that matter—**you should always design experiences for progressive
+enhancement**, and plan for the possibility that JavaScript isn't
+enabled or available.
+
+## The APIs
 
 ### v1
 The working draft spec was formally "frozen" and dubbed [v1][v1 spec]
@@ -68,14 +77,13 @@ var ElementClass = {
   )
 };
 
-// ES2015/ES6
+// ES2015/ES6 
 class ElementClass extends HTMLElement {
   // methods and accessors here
 }
 ```
 
-The custom elements API observes the following instance (prototype)
-methods:
+The v1 API observes the following instance (prototype) methods:
 
 1. `createdCallback()` is called when the element is created.
 1. `attachedCallback()` is called whenever the element is added to
@@ -94,20 +102,88 @@ and the following static (class) properties:
    which the `attributeChangedCallback()` will be called. If you do not
    provide this property, the callback will fire for all attributes.
 
-## v2
-Since then, a new version (informally referred to as "v2") of the [spec]
-has been developed, and which consists of a slightly different API:
+## Type Extension
+Custom elements that extend built-in HTML elements with special
+semantics or behaviors (such as `<button>` or `<input>`) must use a
+feature called _type extension_ via the HTML `is` attribute:
+
+```html
+<button is="fancy-button">I am fancy</button>
+<!-- this will NOT inherit button's semantics or behavior: -->
+<fancy-button>I am not fancy</fancy-button>
+```
+
+When using type extension, your custom element class must also include
+a static `extends` property (_not_ a prototype property):
 
 ```js
+// ES5
+var FancyButton = {
+  extends: 'button',
+  prototype: Object.create(
+    HTMLButtonElement.prototype, // note the new base class
+    {
+      // descriptors here
+    }
+  )
+};
+
+// ES2015/ES6
+class FancyButton extends HTMLButtonElement {
+  static get extends() { return 'button'; }
+  // methods and accessors
+}
+```
+
+And if you want to create an extended element at runtime, you must pass
+the custom element name as the second argument to `document.createElement()`:
+
+```js
+var fancy = document.createElement('button', 'fancy-button');
+```
+
+## v2
+Since then, a new version (informally referred to as "v2") of the [spec]
+has been developed, and which consists of a slightly different API for
+registering custom elements:
+
+```js
+// similar to v1's document.registerElement(), but with options
 customElements.define('element-name', ElementClass, options);
 ```
 
-In both the v1 and v2 APIs, the `ElementClass` can be either a first-class
+As with the [v1 API](#v1), the `ElementClass` can be either a first-class
 constructor that extends the [HTMLElement] base class (or any of its
-subclasses).
+subclasses), or an object with a `prototype` that extends the base class's.
+In the case of [type extension](#type-extension), you must pass an `options`
+object with an `extends` property (rather than defining it as a static
+property of `ElementClass` in the v1 API):
 
+```js
+customElements.define('fancy-button', FancyButton, {extends: 'button'});
+```
+
+Similarly, when creating a custom element at runtime, you must pass an
+options object with an `is` property:
+
+```js
+var custom = document.createElement('button', {is: 'fancy-button'});
+```
+
+The v2 API observes the following instance (prototype) methods:
+
+1. `connectedCallback()` is the new name for v1's `attachedCallback()`
+1. `disconnectedCallback()` is the equivalent of v1's `detachedCallback()`
+1. `attributeChangedCallback(name, oldValue, newValue)` behaves exactly like
+   its counterpart in the [v1 spec], including observed attributes.
+
+The v2 API [specifies][CustomElementsRegistry] two additional methods on
+the global `customElements` object:
+
+* `customElements.get('element-name')` returns the constructor 
 
 [spec]: https://www.w3.org/TR/custom-elements/
 [v1 spec]: https://www.w3.org/TR/2016/WD-custom-elements-20160226/
 [caniuse]: http://caniuse.com/#feat=custom-elements
 [HTMLElement]: https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement
+[CustomElementsRegistry]: https://www.w3.org/TR/custom-elements/#custom-elements-api
