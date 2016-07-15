@@ -20,14 +20,15 @@ You can also extend built-in elements using the "is" attribute:
 ```
 
 ## Table of Contents
-1. [Why Custom Elements?](#why-custom-elements)
+1. [Why custom elements?](#why-custom-elements)
 1. [How do they work?](#how-do-they-work)
-1. [Browser Support](#browser-support)
+1. [Browser support](#browser-support)
 1. [Custom Elements v1 API](#v1)
-1. [Type Extension](#type-extension)
+1. [Type extension](#type-extension)
 1. [Custom Elements v2 API](#v2)
 1. [Gotchas](#gotchas)
 1. [Polyfills](#polyfills)
+1. [Frameworks](#frameworks)
 
 
 ## Why Custom Elements?
@@ -358,14 +359,49 @@ There are a couple of ways to do this:
     superclass constructor essentially ignored?
 
 ## Polyfills
-There are at least two polyfills for the v1 spec that are worth trying out:
+There are at least two polyfills that are worth trying out:
 
-1. [document-register-element] is a small, standalone, light-weight (3K)
+1. [document-register-element] is a small, standalone, light-weight (3K gzipped)
    polyfill that has served me well on several projects and offers browser
    support back to IE9 out of the box, and IE8 with some additional scripts.
+   **If you're targeting the v1 API, this is a solid choice.**
+
 1. The [WebComponents.js] suite of polyfills includes a Custom Elements
    "shim" was made specifically to support web component libraries built on
-   top of web standards, such as [Polymer], [Bosonic], and [X-Tag].
+   top of web standards, such as [Polymer], [Bosonic], and [X-Tag]. The
+   custom elements shim alone is about 5K gzipped, though one of its maintainers
+   [boasts](https://github.com/WebReflection/document-register-element/issues/58#issuecomment-226890046)
+   that the v2 implementation is only 1.7K gzipped. **If you're targeting the
+   v2 API, then [this](https://github.com/webcomponents/webcomponentsjs/tree/v1/src/CustomElements/v1)
+   is the one you want.**
+
+## Frameworks
+There are a number of tools built on top of the custom elements spec(s)
+that handle a lot of the nitty-gritty details of component implementation.
+The two big ones are:
+
+1. [Polymer] is a Google project with tons of features and a massive,
+   ongoing development effort behind it. I have a couple of qualms with it,
+   though, namely:
+
+  * It tries to do too much. If you don't need or want two-way data binding,
+    or many of the other whiz-bang features that Polymer offers, you're
+    still stuck with at least 40K of polyfills _plus_ 120K for Polymer "core".
+    Furthermore, you can't just use Polymer to create custom elements; you
+    pretty much have to deliver your components as HTML imports. If your
+    components are markup-heavy and/or rely on the Shadow DOM, this might
+    be a good thing; but if you're not, then your users are paying a hefty
+    price for your convenience.
+  * Polymer still suggests Bower as its package manager, even though one of
+    Bower's maintainers has suggested [not to use it anymore](https://gofore.com/stop-using-bower/).
+
+1. [X-Tag] is a succinct wrapper around the custom elements v1 API that
+   abstracts away a lot of the boring and/or tricky things about component
+   development, such as event delegation (listening for events at the
+   component level that originate from specific elements) and attribute
+   reflection (syncing attribute and property values). X-Tag was originally
+   made, then promptly abandoned, by Mozilla; but it's now actively
+   maintained by Microsoft.
 
 [spec]: https://www.w3.org/TR/custom-elements/
 [v1 spec]: https://www.w3.org/TR/2016/WD-custom-elements-20160226/
