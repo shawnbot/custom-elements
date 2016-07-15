@@ -38,14 +38,22 @@ You can also extend built-in elements using the "is" attribute:
 
   * If you've ever felt like it was wrong to define reuseable
     components with "special" class names initialized by jQuery
-    selections that can only be called after the DOM is ready or
-    rely on mutation observers to watch for new instances, then
+    selections that can only be called after the DOM is ready (or
+    rely on mutation observers to watch for new instances), then
     custom elements could be your new jam.
 
   * In native implementations (see [browser support](#browser-support)),
     you can target custom elements before (`:unresolved` in the
     [v1 spec]) and after (`:defined` in the [v2 spec][spec]) they've
     been registered via JavaScript.
+
+* **The DOM _is_ the API.** Components built with tools like jQuery
+  can be cumbersome to build, modify, and maintain because they often
+  introduce another layer of abstraction (such as the `jQuery` object
+  and its API) on top of the DOM. And while there's nothing to stop
+  one from building custom elements that use jQuery (or D3, or even
+  [React]) under the hood, I've found custom elements made with
+  vanilla JS to be easier to grok and read.
 
 * **Web Standards.** Custom elements are a working draft W3C
   [specification][spec]. That means that—in theory, at least—they
@@ -257,6 +265,35 @@ the global `customElements` object:
 
 ## Gotchas
 
+### Custom Events
+You can listen for and dispatch [custom events][CustomEvent] in custom
+elements. The only bummer is that, even though most modern browsers
+support the `CustomEvent` constructor, it's missing in all versions of IE
+and in older versions of [PhantomJS], which is used for lots of "headless"
+integration testing. My advice is to include
+[this polyfill](https://www.npmjs.com/package/custom-event), which falls
+back on the native implementation. Here's how you could have your component
+"announce" its readiness to the rest of the document, for instance:
+
+```js
+var CustomEvent = require('custom-event');
+document.registerElement('my-element', {
+  prototype: Object.create(
+    HTMLElement.prototype,
+    {
+      attachedCallback: {value: function() {
+        this.dispatchEvent(new CustomEvent('my-element-ready'));
+      }}
+    }
+  )
+});
+```
+### SVG and Namespaces
+Because you need a [polyfill] and namespaces are tricky, it's basically
+impossible to reliably extend SVG elements, or any element that requires
+an XML namespace. Your best bet is to write a component that wraps `<svg>`
+elements or creates them at runtime if they don't exist.
+
 ### Class Definition
 One of the trickiest things about custom elements is the magical incantation
 for defining element classes that extend `HTMLElement` or its subclasses.
@@ -422,3 +459,4 @@ The two big ones are:
 [document-register-element]: https://github.com/WebReflection/document-register-element
 [Bosonic]: https://bosonic.github.io/
 [X-Tag]: https://x-tag.github.io/
+[PhantomJS]: http://phantomjs.org/
