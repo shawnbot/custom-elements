@@ -3,10 +3,9 @@ Custom elements is a W3C "working draft" [specification][spec] that
 provides a mechanism for defining custom behaviors (such as dynamic
 content or interactivity) for HTML elements with custom names.
 
-Custom elements are just HTML elements! They have all of the
-methods and properties of other HTML elements. The only real
-constraint is that their names must contain at least one hyphen
-(`-`):
+Custom elements are just HTML elements, with all of the methods and
+properties of other, built-in elements. The only real constraint is
+that their names must contain at least one hyphen (`-`).
 
 ```html
 <message-element>Hi!</message-element>
@@ -21,13 +20,34 @@ You can also extend built-in elements using the "is" attribute:
 ```
 
 ## Table of Contents
-1. [Custom Elements: How do they work?](#how-do-they-work)
+1. [Why Custom Elements?](#why-custom-elements)
+1. [How do they work?](#how-do-they-work)
 1. [Browser Support](#browser-support)
 1. [Custom Elements v1 API](#v1)
 1. [Type Extension](#type-extension)
 1. [Custom Elements v2 API](#v2)
 1. [Gotchas](#gotchas)
 1. [Polyfills](#polyfills)
+
+
+## Why Custom Elements?
+* **Encapsulation.** Custom element names avoid ambiguity in
+  markup (versus, say, a `<div>` or `<span>` with a "special"
+  class), and provide a solid foundation for scoped styles. If
+  you've ever felt like it was wrong to define reuseable
+  components with "special" class names initialized by jQuery
+  selections that could only be called after the DOM is ready,
+  then custom elements might just be your new jam.
+
+* **Web Standards.** Custom elements are a working draft W3C
+  [specification][spec]. That means that—in theory, at least—they
+  will _eventually_ be implemented natively in all modern browsers
+  with the same API. The same cannot be said for other tools that
+  implement the more general concept of _web components_, such as
+  [Angular], [React], or [Vue.js]. ([Polymer], on the other hand,
+  is based _entirely_ on draft standard technologies, including
+  custom elements.)
+
 
 ## How do they work?
 Custom element behaviors are added at runtime (whenever the
@@ -327,8 +347,8 @@ There are a couple of ways to do this:
     ```
     
     :construction: **I'm honestly not sure how this will be handled
-    natively in ES5, though.** Does the constructor get called, and
-    is the superclass constructor essentially ignored?
+    natively in ES5.** Does the constructor get called, and is the
+    superclass constructor essentially ignored?
 
 ## Polyfills
 
@@ -341,3 +361,7 @@ There are a couple of ways to do this:
 [Object.create]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create
 [aight]: https://github.com/shawnbot/aight
 [es5-shim]: https://github.com/es-shims/es5-shim
+[Polymer]: https://www.polymer-project.org/
+[Angular]: https://angularjs.org/
+[React]: https://facebook.github.io/react/
+[Vue.js]: https://vuejs.org/
