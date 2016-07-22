@@ -68,6 +68,15 @@ You can also extend built-in elements using the "is" attribute:
   other hand, are based _entirely_ on draft standard technologies,
   including custom elements.)
 
+  Keep in mind is that **custom elements are not mutually exclusive
+  of other web component technologies**. In fact, I see them as a
+  powerful force multiplier of any technology that leverages them:
+  When designed well, custom elements put their power into the hands
+  of anyone who can write HTML. The same cannot be said of tools
+  like [React], which are out of reach to web designers who haven't
+  learned JSX or ES6, let alone JavaScript. Great React components
+  can be made even greater by packaging them as custom elements with
+  tools like [ReactiveElements].
 
 ## How do they work?
 Custom element behaviors are added at runtime (whenever the
@@ -471,3 +480,4 @@ The two big ones are:
 [Bosonic]: https://bosonic.github.io/
 [X-Tag]: https://x-tag.github.io/
 [PhantomJS]: http://phantomjs.org/
+[ReactiveElements]: https://github.com/PixelsCommander/ReactiveElements
