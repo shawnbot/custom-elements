@@ -129,7 +129,7 @@ Where `ElementClass` can either be a first-class constructor that extends
 ```js
 // ES5
 var ElementClass = {
-  prototoype: Object.create(
+  prototype: Object.create(
     HTMLElement.prototype,
     {
       // descriptors here
