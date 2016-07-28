@@ -23,9 +23,9 @@ You can also extend built-in elements using the "is" attribute:
 1. [Why custom elements?](#why-custom-elements)
 1. [How do they work?](#how-do-they-work)
 1. [Browser support](#browser-support)
-1. [Custom Elements v1 API](#v1)
+1. [Custom Elements v0 API](#v0)
 1. [Type extension](#type-extension)
-1. [Custom Elements v2 API](#v2)
+1. [Custom Elements v1 API](#v1)
 1. [Gotchas](#gotchas)
 1. [Polyfills](#polyfills)
 1. [Frameworks](#frameworks)
@@ -44,7 +44,7 @@ You can also extend built-in elements using the "is" attribute:
 
   * In native implementations (see [browser support](#browser-support)),
     you can target custom elements before (`:unresolved` in the
-    [v1 spec]) and after (`:defined` in the [v2 spec][spec]) they've
+    [v0 spec]) and after (`:defined` in the [v1 spec][spec]) they've
     been registered via JavaScript.
 
 * **The DOM _is_ the API.** Components built with tools like jQuery
@@ -100,10 +100,10 @@ different element _lifecycle events_:
 **Don't let the fact that the [Custom Elements specification][spec] is a
 working draft scare you!**
 
-As of this writing, Chrome has already [implemented][Chrome] the [v1 spec],
+As of this writing, Chrome has already [implemented][Chrome] the [v0 spec],
 and both [Safari] and [Firefox] are working on their own implementations of
-[v2](#v2). Regardless of which browsers end up implementing which spec
-(if any), the v1 spec is "frozen" (meaning it will not change), and
+[v1](#v1). Regardless of which browsers end up implementing which spec
+(if any), the v0 spec is "frozen" (meaning it will not change), and
 there are several solid [polyfills](#polyfills) that bring custom
 element support to just about every browser—including IE8!
 
@@ -114,10 +114,10 @@ enabled or available.
 
 ## The APIs
 
-### v1
-The working draft spec was formally "frozen" and dubbed [v1][v1 spec]
+### v0
+The working draft spec was formally "frozen" and dubbed [v0][v0 spec]
 in early 2016, and [several browsers][caniuse] have already shipped
-native implementations. The v1 API consists of a single function:
+native implementations. The v0 API consists of a single function:
 
 ```js
 document.registerElement('element-name', ElementClass);
@@ -143,7 +143,7 @@ class ElementClass extends HTMLElement {
 }
 ```
 
-The v1 API observes the following instance (prototype) methods:
+The v0 API observes the following instance (prototype) methods:
 
 1. `createdCallback()` is called when the element is created.
 1. `attachedCallback()` is called whenever the element is added to
@@ -230,24 +230,24 @@ the custom element name as the second argument to `document.createElement()`:
 var fancy = document.createElement('button', 'fancy-button');
 ```
 
-## v2
-Since then, a new version (informally referred to as "v2") of the [spec]
+## v1
+Since then, a new version (informally referred to as "v1") of the [spec]
 has been developed, and which consists of a slightly different API for
 registering custom elements:
 
 ```js
-// similar to v1's document.registerElement():
+// similar to v0's document.registerElement():
 customElements.define('element-name', ElementClass);
 // except that 'extends' is passed in the options argument
 customElements.define('fancy-image', ElementClass, {extends: 'img'});
 ```
 
-As with the [v1 API](#v1), the `ElementClass` can be either a first-class
+As with the [v0 API](#v0), the `ElementClass` can be either a first-class
 constructor that extends the [HTMLElement] base class (or any of its
 subclasses), or an object with a `prototype` that extends the base class's.
 In the case of [type extension](#type-extension), you must pass an `options`
 object with an `extends` property (rather than defining it as a static
-property of `ElementClass` in the v1 API):
+property of `ElementClass` in the v0 API):
 
 ```js
 customElements.define('fancy-button', FancyButton, {extends: 'button'});
@@ -260,14 +260,14 @@ options object with an `is` property:
 var custom = document.createElement('button', {is: 'fancy-button'});
 ```
 
-The v2 API observes the following instance (prototype) methods:
+The v1 API observes the following instance (prototype) methods:
 
-1. `connectedCallback()` is the new name for v1's `attachedCallback()`
-1. `disconnectedCallback()` is the equivalent of v1's `detachedCallback()`
+1. `connectedCallback()` is the new name for v0's `attachedCallback()`
+1. `disconnectedCallback()` is the equivalent of v0's `detachedCallback()`
 1. `attributeChangedCallback(name, oldValue, newValue)` behaves exactly like
-   its counterpart in the [v1 spec], including observed attributes.
+   its counterpart in the [v0 spec], including observed attributes.
 
-The v2 API [specifies][CustomElementsRegistry] two additional methods on
+The v1 API [specifies][CustomElementsRegistry] two additional methods on
 the global `customElements` object:
 
 * `customElements.get('element-name')` returns the constructor of the
@@ -369,7 +369,7 @@ There are a couple of ways to do this:
   ```
 
 1. Use prototypal inheritance.
-  * In the [v1 API](#v1) the constructor is essentially ignored, so you don't
+  * In the [v0 API](#v0) the constructor is essentially ignored, so you don't
     have to call the superclass constructor, and all of your constructor-like
     logic goes in the `createdCallback()` class method:
 
@@ -384,7 +384,7 @@ There are a couple of ways to do this:
     });
     ```
     
-  * In the [v2 API](#v2) the constructor _is_ called, and there is no
+  * In the [v1 API](#v1) the constructor _is_ called, and there is no
     `createdCallback()`. In ES2015/ES6, this couldn't be simpler:
 
     ```js
@@ -414,15 +414,15 @@ There are at least two polyfills that are worth trying out:
 1. [document-register-element] is a small, standalone, light-weight (3K gzipped)
    polyfill that has served me well on several projects and offers browser
    support back to IE9 out of the box, and IE8 with some additional scripts.
-   **If you're targeting the v1 API, this is a solid choice.**
+   **If you're targeting the v0 API, this is a solid choice.**
 
 1. The [WebComponents.js] suite of polyfills includes a Custom Elements
    "shim" was made specifically to support web component libraries built on
    top of web standards, such as [Polymer], [Bosonic], and [X-Tag]. The
    custom elements shim alone is about 5K gzipped, though one of its maintainers
    [boasts](https://github.com/WebReflection/document-register-element/issues/58#issuecomment-226890046)
-   that the v2 implementation is only 1.7K gzipped. **If you're targeting the
-   v2 API, then [this](https://github.com/webcomponents/webcomponentsjs/tree/v1/src/CustomElements/v1)
+   that the v1 implementation is only 1.7K gzipped. **If you're targeting the
+   v1 API, then [this](https://github.com/webcomponents/webcomponentsjs/tree/v0/src/CustomElements/v0)
    is the one you want.**
 
 ## Frameworks
@@ -452,7 +452,7 @@ The two big ones are:
   performance and is built around a functional rendering pipeline", weighing
   in at just 4K gzipped.
 
-* [X-Tag] is a succinct wrapper around the custom elements v1 API that
+* [X-Tag] is a succinct wrapper around the custom elements v0 API that
   abstracts away a lot of the boring and/or tricky things about component
   development, such as event delegation (listening for events at the
   component level that originate from specific elements) and attribute
@@ -461,7 +461,7 @@ The two big ones are:
    maintained by Microsoft.
 
 [spec]: https://www.w3.org/TR/custom-elements/
-[v1 spec]: https://www.w3.org/TR/2016/WD-custom-elements-20160226/
+[v0 spec]: https://www.w3.org/TR/2016/WD-custom-elements-20160226/
 [caniuse]: http://caniuse.com/#feat=custom-elements
 [HTMLElement]: https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement
 [CustomElementsRegistry]: https://www.w3.org/TR/custom-elements/#custom-elements-api
