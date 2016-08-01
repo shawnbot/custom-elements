@@ -481,3 +481,4 @@ The two big ones are:
 [X-Tag]: https://x-tag.github.io/
 [PhantomJS]: http://phantomjs.org/
 [ReactiveElements]: https://github.com/PixelsCommander/ReactiveElements
+[CustomEvent]: https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent
