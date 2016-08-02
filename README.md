@@ -422,7 +422,7 @@ There are at least two polyfills that are worth trying out:
    custom elements shim alone is about 5K gzipped, though one of its maintainers
    [boasts](https://github.com/WebReflection/document-register-element/issues/58#issuecomment-226890046)
    that the v1 implementation is only 1.7K gzipped. **If you're targeting the
-   v1 API, then [this](https://github.com/webcomponents/webcomponentsjs/tree/v0/src/CustomElements/v0)
+   v1 API, then [this](https://github.com/webcomponents/webcomponentsjs/tree/v1/src/CustomElements/v1)
    is the one you want.**
 
 ## Frameworks
