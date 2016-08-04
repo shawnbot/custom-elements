@@ -413,11 +413,13 @@ There are at least two polyfills that are worth trying out:
 
 1. [document-register-element] is a small, standalone, light-weight (3K gzipped)
    polyfill that has served me well on several projects and offers browser
-   support back to IE9 out of the box, and IE8 with some additional scripts.
-   **If you're targeting the v0 API, this is a solid choice.**
+   support back to IE9 out of the box, and
+   [IE8](https://github.com/WebReflection/document-register-element#about-ie8)
+   with some additional scripts. **If you're targeting the v0 API, this is a
+   solid choice.**
 
 1. The [WebComponents.js] suite of polyfills includes a Custom Elements
-   "shim" was made specifically to support web component libraries built on
+   "shim" that was made specifically to support web component libraries built on
    top of web standards, such as [Polymer], [Bosonic], and [X-Tag]. The
    custom elements shim alone is about 5K gzipped, though one of its maintainers
    [boasts](https://github.com/WebReflection/document-register-element/issues/58#issuecomment-226890046)
@@ -428,7 +430,7 @@ There are at least two polyfills that are worth trying out:
 ## Frameworks
 There are a number of tools built on top of the custom elements spec(s)
 that handle a lot of the nitty-gritty details of component implementation.
-The two big ones are:
+The ones to watch are:
 
 * [Polymer] is a Google project with tons of features and a massive,
   ongoing development effort behind it. I have a couple of qualms with it,
@@ -458,7 +460,17 @@ The two big ones are:
   component level that originate from specific elements) and attribute
   reflection (syncing attribute and property values). X-Tag was originally
   made, then promptly abandoned, by Mozilla; but it's now actively
-   maintained by Microsoft.
+  maintained by Microsoft.
+
+Some frameworks have already come and gone:
+
+* [Bosonic] is marketed as "A practical collection of everyday Web Components",
+  and consists of both a "curated" library of atomic component defintions
+  (such as [accessible modal dialogs](http://bosonic.github.io/elements/dialogs-modals.html),
+  [data tables](http://bosonic.github.io/elements/tables.html), and more).
+  Unfortunately, it doesn't appear to have gotten much traction over Polymer,
+  and hasn't been touched (as of this writing) since January, 2016.
+
 
 [spec]: https://www.w3.org/TR/custom-elements/
 [v0 spec]: https://www.w3.org/TR/2016/WD-custom-elements-20160226/
