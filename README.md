@@ -302,10 +302,10 @@ document.registerElement('my-element', {
 });
 ```
 ### SVG and Namespaces
-Because you need a [polyfill] and namespaces are tricky, it's basically
-impossible to reliably extend SVG elements, or any element that requires
-an XML namespace. Your best bet is to write a component that wraps `<svg>`
-elements or creates them at runtime if they don't exist.
+Because you need a [polyfill](#polyfills) and namespaces are tricky, it's
+basically impossible to reliably extend SVG elements, or any element that
+requires an XML namespace. Your best bet is to write a component that wraps
+`<svg>` elements or creates them at runtime if they don't exist.
 
 ### Class Definition
 One of the trickiest things about custom elements is the magical incantation
