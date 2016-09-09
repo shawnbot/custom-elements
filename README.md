@@ -411,21 +411,23 @@ There are a couple of ways to do this:
 ## Polyfills
 There are at least two polyfills that are worth trying out:
 
-1. [document-register-element] is a small, standalone, light-weight (3K gzipped)
-   polyfill that has served me well on several projects and offers browser
-   support back to IE9 out of the box, and
+1. [document-register-element] is a small, standalone, light-weight polyfill
+   that has served me well on several projects and offers browser support back
+   to IE9 out of the box, and
    [IE8](https://github.com/WebReflection/document-register-element#about-ie8)
-   with some additional scripts. **If you're targeting the v0 API, this is a
-   solid choice.**
+   with some additional scripts.
+
+   **As of its own [v1 release](https://github.com/WebReflection/document-register-element/releases/tag/v1.0.0),
+   this polyfill supports both v0 and v1 APIs. This makes it a solid choice for
+   most use cases.**
 
 1. The [WebComponents.js] suite of polyfills includes a Custom Elements
    "shim" that was made specifically to support web component libraries built on
    top of web standards, such as [Polymer], [Bosonic], and [X-Tag]. The
    custom elements shim alone is about 5K gzipped, though one of its maintainers
    [boasts](https://github.com/WebReflection/document-register-element/issues/58#issuecomment-226890046)
-   that the v1 implementation is only 1.7K gzipped. **If you're targeting the
-   v1 API, then [this](https://github.com/webcomponents/webcomponentsjs/tree/v1/src/CustomElements/v1)
-   is the one you want.**
+   that the [v1 implementation](https://github.com/webcomponents/webcomponentsjs/tree/v1/src/CustomElements/v1)
+   is only 1.7K gzipped.
 
 ## Frameworks
 There are a number of tools built on top of the custom elements spec(s)
