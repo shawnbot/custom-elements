@@ -25,6 +25,7 @@ You can also extend built-in elements using the "is" attribute:
 1. [Browser support](#browser-support)
 1. [Custom Elements v0 API](#v0)
 1. [Type extension](#type-extension)
+1. [Observed attributes](#observed-attributes)
 1. [Custom Elements v1 API](#v1)
 1. [Gotchas](#gotchas)
 1. [Polyfills](#polyfills)
@@ -137,7 +138,7 @@ var ElementClass = {
   )
 };
 
-// ES2015/ES6 
+// ES2015
 class ElementClass extends HTMLElement {
   // methods and accessors here
 }
@@ -216,7 +217,7 @@ var FancyButton = {
   )
 };
 
-// ES2015/ES6
+// ES2015
 class FancyButton extends HTMLButtonElement {
   static get extends() { return 'button'; }
   // methods and accessors
@@ -229,6 +230,41 @@ the custom element name as the second argument to `document.createElement()`:
 ```js
 var fancy = document.createElement('button', 'fancy-button');
 ```
+
+## Observed Attributes
+Observed attributes are attributes that fire `attributeChangedCallback()`
+in either the [v0](#v0) or [v1](#v1) APIs. In either version, if the custom
+element class declares a static `observedAttributes` array, the underlying
+implementation will fire the callback for _only_ the listed attributes:
+
+```js
+// ES2015
+class CustomElement extends HTMLElement {
+  static get observedAttributes() { return ['foo', 'bar']; }
+  
+  attributeChangedCallback(attr, old, value) {
+    // `attr` will only ever equal 'foo' or 'bar'
+    switch (attr) {
+      case 'foo': break;
+      case 'bar': break;
+    }
+  }
+}
+```
+
+Otherwise, the callback will be fired for _all_ attributes.
+
+```js
+// ES2015
+class CustomElement extends HTMLElement {
+  attributeChangedCallback(attr, old, value) {
+    // `attr` could be anything
+  }
+}
+```
+
+When implementing [attribute reflection], please observe the
+[W3C API Design Principles](https://w3ctag.github.io/design-principles/#api-surface).
 
 ## v1
 Since then, a new version (informally referred to as "v1") of the [spec]
@@ -265,7 +301,8 @@ The v1 API observes the following instance (prototype) methods:
 1. `connectedCallback()` is the new name for v0's `attachedCallback()`
 1. `disconnectedCallback()` is the equivalent of v0's `detachedCallback()`
 1. `attributeChangedCallback(name, oldValue, newValue)` behaves exactly like
-   its counterpart in the [v0 spec], including observed attributes.
+   its counterpart in the [v0 spec], including
+   [observed attributes](#observed-attributes).
 
 The v1 API [specifies][CustomElementsRegistry] two additional methods on
 the global `customElements` object:
@@ -388,7 +425,7 @@ There are a couple of ways to do this:
     `createdCallback()`. In ES2015/ES6, this couldn't be simpler:
 
     ```js
-    // ES2016/ES6
+    // ES2015
     class CustomElement extends HTMLElement {
       constructor() {
         super();
@@ -458,11 +495,9 @@ The ones to watch are:
 
 * [X-Tag] is a succinct wrapper around the custom elements v0 API that
   abstracts away a lot of the boring and/or tricky things about component
-  development, such as event delegation (listening for events at the
-  component level that originate from specific elements) and attribute
-  reflection (syncing attribute and property values). X-Tag was originally
-  made, then promptly abandoned, by Mozilla; but it's now actively
-  maintained by Microsoft.
+  development, such as [event delegation] and [attribute reflection].
+  X-Tag was originally made (then promptly abandoned) by Mozilla, but is
+  now actively maintained by Microsoft.
 
 Some frameworks have already come and gone:
 
@@ -496,3 +531,5 @@ Some frameworks have already come and gone:
 [PhantomJS]: http://phantomjs.org/
 [ReactiveElements]: https://github.com/PixelsCommander/ReactiveElements
 [CustomEvent]: https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent
+[attribute reflection]: https://github.com/domenic/webidl-html-reflector
+[event delegation]: https://davidwalsh.name/event-delegate
