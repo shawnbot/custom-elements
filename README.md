@@ -471,23 +471,21 @@ There are a number of tools built on top of the custom elements spec(s)
 that handle a lot of the nitty-gritty details of component implementation.
 The ones to watch are:
 
-* [Polymer] is a Google project with tons of features and a massive,
-  ongoing development effort behind it. I have a couple of qualms with it,
-  though, namely:
+  * [Polymer] is a Google project with tons of features and a massive,
+    ongoing development effort behind it. My only qualm with it is that the
+    framework tries to do too much. If you don't need or want two-way data
+    binding, or many of the other whiz-bang features that Polymer offers,
+    you're still stuck with at least 40K of polyfills _plus_ 120K for
+    Polymer "core".
 
-  * It tries to do too much. If you don't need or want two-way data binding,
-    or many of the other whiz-bang features that Polymer offers, you're
-    still stuck with at least 40K of polyfills _plus_ 120K for Polymer "core".
     Furthermore, you can't just use Polymer to create custom elements; you
     pretty much have to deliver your components as HTML imports. If your
     components are markup-heavy and/or rely on the Shadow DOM, this might
     be a good thing; but if you're not, then your users are paying a hefty
     price for your convenience.
-  * Polymer still suggests Bower as its package manager, even though one of
-    Bower's maintainers has suggested [not to use it anymore](https://gofore.com/stop-using-bower/).
-
-  Bottom line: Polymer is more of an application development framework than
-  a custom element framework.
+  
+    **Bottom line:** Polymer is more of an _application development_
+    framework than purely a custom element framework.
 
 * [Skate](https://customelements.io/skatejs/skatejs/) "focuses on size,
   performance and is built around a functional rendering pipeline", weighing
