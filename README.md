@@ -486,6 +486,14 @@ The ones to watch are:
   
     **Bottom line:** Polymer is more of an _application development_
     framework than purely a custom element framework.
+    
+* [slim.js](http://slimjs.com) is an opensource micro-framework for easy development
+  of custom elements and/or applications, based on the Web Components v1 standard (fully supported).
+  It has a very low footprint (~5k gzipped) and is high-performant [(compared to Polymer, VueJS, riot and many more)](https://rawgit.com/krausest/js-framework-benchmark/master/webdriver-ts-results/table.html).
+  It supports 1-way data binding, repeaters, native event deleagtion and it is extensible.
+  Both slim.js applications and slim.js standalone elements can be delivered with HTML imports or JavaScript.
+  The library also supports advanced features like decorators and typings and is easily
+  bundled with tools like webpack. 
 
 * [Skate](https://customelements.io/skatejs/skatejs/) "focuses on size,
   performance and is built around a functional rendering pipeline", weighing
