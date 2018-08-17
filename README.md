@@ -1,11 +1,11 @@
 # All about HTML Custom Elements (v1)
-Custom Elements is a WHATWG HTML [specification][spec] that
+Custom Elements is a [WHATWG] HTML [specification][spec] that
 provides a mechanism for defining new behaviors (such as dynamic
 content or interactivity) for HTML elements with custom names.
-
 Custom elements are just HTML elements, with all of the methods and
 properties of other, built-in elements. The only real constraint
-is that **[custom element names must contain a hyphen (`-`)](https://html.spec.whatwg.org/multipage/custom-elements.html#valid-custom-element-name)**.
+is that
+**[custom element names must contain a hyphen (`-`)](https://html.spec.whatwg.org/multipage/custom-elements.html#valid-custom-element-name)**.
 
 ```html
 <message-element>Hi!</message-element>
@@ -16,8 +16,10 @@ is that **[custom element names must contain a hyphen (`-`)](https://html.spec.w
 </super-section>
 ```
 
-**Note:** The adopted custom element [spec] was formerly known as "v1",
-and differs almost entirely from the original ["v0" spec][v0 spec].
+**Note:** The adopted [custom element spec][spec], formerly known
+as "v1", differs almost entirely from the original ["v0" spec][v0 spec].
+If you've been using `document.registerElement()` from the v0 API,
+then read on to see what's changed.
 
 ## Table of Contents
 1. [Why custom elements?](#why-custom-elements)
@@ -26,7 +28,6 @@ and differs almost entirely from the original ["v0" spec][v0 spec].
 1. [Customized built-in elements](#customized-built-in-elements)
 1. [Observed attributes](#observed-attributes)
 1. [Polyfills](#polyfills)
-1. [Frameworks](#frameworks)
 
 
 ## Why Custom Elements?
@@ -49,32 +50,25 @@ and differs almost entirely from the original ["v0" spec][v0 spec].
   can be cumbersome to build, modify, and maintain because they often
   introduce another layer of abstraction (such as the `jQuery` object
   and its API) on top of the DOM. And while there's nothing to stop
-  one from building custom elements that use jQuery (or D3, or even
-  [React]) under the hood, I've found custom elements made with
+  one from building custom elements that use jQuery, D3, React, or
+  whatever under the hood, I've found custom elements made with
   vanilla JS to be easier to grok and read.
 
   Put another way: **The DOM isn't going away any time soon**, and
   custom elements provide a solid conceptual _and_ technical
   foundation on which all sorts of amazing things can be built.
 
-* **Web Standards.** Custom elements are a working draft W3C
+* **Web Standards.** Custom elements are an adopted [WHATWG] HTML
   [specification][spec]. That means that—in theory, at least—they
   will _eventually_ be implemented natively in all modern browsers
-  with the same API. The same cannot be said for other tools that
-  implement the more general concept of _web components_, such as
-  [Angular], [React], or [Vue.js]. ([Polymer] and [X-Tag], on the
-  other hand, are based _entirely_ on draft standard technologies,
-  including custom elements.)
+  with the same API.
 
   Keep in mind is that **custom elements are not mutually exclusive
   of other web component technologies**. In fact, I see them as a
   powerful force multiplier of any technology that leverages them:
   When designed well, custom elements put their power into the hands
-  of anyone who can write HTML. The same cannot be said of tools
-  like [React], which are out of reach to web designers who haven't
-  learned JSX or ES6, let alone JavaScript. Great React components
-  can be made even greater by packaging them as custom elements with
-  tools like [ReactiveElements].
+  of anyone who can write HTML. Great React components, for instance,
+  can be made even greater by packaging them up as custom elements.
 
 ## How do they work?
 Custom element behaviors are added at runtime (whenever the
@@ -88,26 +82,30 @@ different element _lifecycle events_:
    either directly or indirectly. This may be called multiple times,
    and is generally the best place to add event handlers.
 1. **When an instance is removed** (or "disconnected") from the
-   document, either directly or indirectly. As with
-   `attachedCallback()`, this may be called multiple times.
+   document, either directly or indirectly. This may also be called
+   multiple times.
 1. **When an attribute is changed**. You can also subscribe to specific
    [observed attributes](#observed-attributes) if you only care about
-   attributes unique to your element.
+   attributes unique to your element, or to implement [attribute reflection].
 
 ## Browser Support
-As of summer, 2018, Chrome has already [implemented][Chrome] both the [v0 spec],
-and the adopted ("v1") [spec]. [Safari] has implemented so-called "autonomous"
-custom elements, but has officially refused to support extension of built-in
-elements. [Firefox] has implemented the spec behind a feature flag. Regardless
-of your support targets, you should probably be using one of the [polyfills](#polyfills).
+As of summer 2018:
 
-That said, when using custom elements—or anything involving JavaScript,
-for that matter—**you should always design experiences for progressive
-enhancement**, and plan for the possibility that JavaScript isn't
-enabled or available. ✌️
+* Chrome has [implemented][Chrome] both the [v0 spec],
+  and the adopted ("v1") [spec].
+* [Safari] has implemented so-called "autonomous" custom elements, but has
+  declined to support extension of built-in elements.
+* [Firefox] has implemented the spec behind a feature flag.
+
+Regardless of your support targets, you should use a [polyfill](#polyfills).
+As of summer 2018:Chrome has already [implemented][Chrome] both the [v0 spec],
+
+⚠️ When using custom elements—or anything involving JavaScript,
+for that matter—**always design experiences for progressive enhancement**,
+and plan for the possibility that JavaScript isn't enabled or available.
 
 ## The API
-The custom elements API consists mainly of a "custom element registry" object
+The custom elements API consists mainly of a [CustomElementsRegistry] object
 that can be used to register class constructors for custom elements by name:
 
 ```js
@@ -120,7 +118,7 @@ Where `ElementClass` is a class that extends [HTMLElement]:
 // ES2015
 class ElementClass extends HTMLElement {
   constructor() {
-    // super() // <-- this is required!
+    super() // <-- this is required!
     this.created()
   }
   
@@ -172,7 +170,8 @@ and the following static (class) properties:
 
 ## Customized built-in elements
 
-⚠️ **Warning:** Safari does not implement [this portion](https://html.spec.whatwg.org/multipage/custom-elements.html#customized-built-in-element) of the [spec]. If you wish to use it, you will need a [polyfill](#polyfills).
+⚠️ **Warning:** Safari does not _yet_ implement [this portion][customized built-ins]
+of the [spec]. If you wish to use it, you will need a [polyfill](#polyfills).
 
 Custom elements may extend built-in HTML elements with special
 semantics or behaviors (such as `<button>` or `<input>`). Here's how
@@ -210,8 +209,8 @@ they work:
 ## Observed Attributes
 Observed attributes are attributes that fire the `attributeChangedCallback()`
 lifecycle method. If the custom element class has a (static)
-`observedAttributes` array, the underlying implementation will fire the
-callback for _only_ the listed attributes:
+`observedAttributes` array, the callback will fire for _only_ the listed
+attributes:
 
 ```js
 // ES2015
@@ -241,12 +240,12 @@ class CustomElement extends HTMLElement {
 }
 ```
 
-When implementing [attribute reflection], please observe the
+📝 When implementing [attribute reflection], please observe the
 [W3C API Design Principles](https://w3ctag.github.io/design-principles/#api-surface).
 
-## The CustomElementsRegistry
-The [CustomElementsRegistry] at `window.customElements` has two
-additional methods for querying its state and responding to when
+## The Custom elements registry
+The [CustomElementsRegistry] object available at `window.customElements`
+has two additional methods for querying its state and responding to when
 specific custom elements are registered:
 
 * `customElements.get('element-name')` returns the class constructor
@@ -291,8 +290,8 @@ requires an XML namespace. Your best bet is to write a component that wraps
 ### Class Definition
 One of the trickiest things about custom elements is the magical incantation
 for defining element classes that extend `HTMLElement` or its subclasses,
-especially in "legacy" ES5 environments that don't support the `class` keyword.
-Here are a couple of ways to pull it off:
+especially in "legacy" ES5 environments that don't support the `class` keyword
+or `super()` calls. There are a couple of ways to pull it off:
 
 1. Create an object literal (rather than a proper constructor function) with
    a `prototype` that extends `HTMLElement.prototype`. The only way to do this
@@ -301,78 +300,77 @@ Here are a couple of ways to pull it off:
    thing to note here is that because these are property descriptors, methods
    must be provided as objects with a `value` property:
 
-  ```js
-  // ES5
-  var CustomElement = {
-    prototype: Object.create(
-      HTMLElement.prototype,
-      {
-        // this will NOT work:
-        createdCallback: function() {
-        },
-        // but this will:
-        createdCallback: {value: function() {
-        }},
-        
-        // accessors look like this:
-        someValue: {
-          get: function() { /* ... */ },
-          set: function(value) { /* ... */ }
+    ```js
+    // ES5
+    var CustomElement = {
+      prototype: Object.create(
+        HTMLElement.prototype,
+        {
+          // this will NOT work:
+          createdCallback: function() {
+          },
+          // but this will:
+          createdCallback: {value: function() {
+          }},
+
+          // accessors look like this:
+          someValue: {
+            get: function() { /* ... */ },
+            set: function(value) { /* ... */ }
+          }
         }
-      }
-    )
-  };
-  ```
-  
-  **Note:** if you need to support older browsers such as IE8 or below,
-  you will also need a polyfill or shim for ES5 standard APIs, such as
-  [aight] or [es5-shim].
+      )
+    };
+    ```
+
+    **Note:** if you need to support older browsers such as IE8 or below,
+    you will also need a polyfill or shim for ES5 standard APIs, such as
+    [aight] or [es5-shim].
   
 1. A variation on the above method uses [`Object.create()`][Object.create]
    but assigns methods directly:
 
-  ```js
-  // ES5
-  var CustomElement = {
-    prototype: Object.create(HTMLElement.prototype)
-  };
-  
-  CustomElement.prototype.someMethod = function(arg) { /* ... */ };
-  
-  // any accessors not passed to Object.create() can be defined like so.
-  // note that this is *exactly* what Object.create() is doing under the
-  // hood!
-  Object.defineProperties(CustomElement.prototype, {
-    someValue: {
-      get: function() { /* ... */ },
-      set: function(value) { /* ... */ }
-    }
-  });
-  ```
-
-1. Use prototypal inheritance.
-    
-  * In the v1 [spec] you _must_ provide a `constructor()` in your class
-    and call `super()` before "doing" anything else:
-
     ```js
-    // ES2015
-    class CustomElement extends HTMLElement {
-      constructor() {
-        super();
-        // created logic goes here
-      }
-      
-      connectedCallback() { /* ... */ }
+    // ES5
+    var CustomElement = {
+      prototype: Object.create(HTMLElement.prototype)
+    };
 
-      someOtherMethod() { /* ... */ }
-      
-      get someValue() { /* ... */ }
-      set someValue(value) { /* ... */ }
+    CustomElement.prototype.someMethod = function(arg) { /* ... */ };
+
+    // any accessors not passed to Object.create() can be defined like so.
+    // note that this is *exactly* what Object.create() is doing under the
+    // hood!
+    Object.defineProperties(CustomElement.prototype, {
+      someValue: {
+        get: function() { /* ... */ },
+        set: function(value) { /* ... */ }
+      }
+    });
+    ```
+
+1. Use [Babel] and the [custom-element-classes transform](https://github.com/github/babel-plugin-transform-custom-element-classes#readme). Your `.babelrc` should look something like this:
+
+    ```json
+    {
+      "presets": ["env"],
+      "plugins": [
+        ""transform-custom-element-classes"
+      ]
     }
     ```
     
-    If you're using Babel, the [custom-element-classes transform](https://github.com/github/babel-plugin-transform-custom-element-classes#readme) is your friend.
+    which should make it possible to write classes like:
+    
+    ```js
+    class Widget extends HTMLElement {
+      constructor() {
+        super()
+      }
+    }
+    
+    window.customElements.define('widget-element', Widget)
+    ```
 
 ## Polyfills
 The semi-official [webcomponents/custom-elements](https://github.com/webcomponents/custom-elements)
@@ -398,3 +396,5 @@ spec rules involving class constructors and the `new` keyword. You should use th
 [attribute reflection]: https://github.com/domenic/webidl-html-reflector
 [event delegation]: https://davidwalsh.name/event-delegate
 [custom element registry]: https://html.spec.whatwg.org/multipage/custom-elements.html#customized-built-in-element
+[WHATWG]: https://whatwg.org/faq#what-is-the-whatwg
+[customized built-ins]: https://html.spec.whatwg.org/multipage/custom-elements.html#customized-built-in-element
