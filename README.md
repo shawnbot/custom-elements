@@ -28,7 +28,7 @@ then read on to see what's changed.
 1. [Customized built-in elements](#customized-built-in-elements)
 1. [Observed attributes](#observed-attributes)
 1. [Polyfills](#polyfills)
-
+1. [Further Reading](#further-reading)
 
 ## Why Custom Elements?
 * **Encapsulation.** Custom element names avoid ambiguity in
@@ -373,13 +373,17 @@ or `super()` calls. There are a couple of ways to pull it off:
     ```
 
 ## Polyfills
-The semi-official [webcomponents/custom-elements](https://github.com/webcomponents/custom-elements)
-polyfill is what GitHub uses, and it provides a bunch of workarounds for the
-spec rules involving class constructors and the `new` keyword. You should use this!
+The semi-official [webcomponents/custom-elements] polyfill is what GitHub uses,
+and it provides a bunch of workarounds for the spec rules involving class
+constructors and the `new` keyword. You should use it, too!
 
 
 ## Further reading
-* 
+* [Custom Elements v1: Reusable Web Components (Google)](https://developers.google.com/web/fundamentals/web-components/customelements) is a great introduction to custom elements.
+* [Introducing Custom Elements (WebKit)](https://webkit.org/blog/7027/introducing-custom-elements/) contains some nice implementation tips. 
+* [Using Custom Elements (MDN)](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) is, like pretty much everything else on MDN, a solid reference.
+* [Custom Elements Everywhere](https://custom-elements-everywhere.com/) rates popular web frameworks for compatibility with custom elements.
+* The [WebComponents.org introduction](https://www.webcomponents.org/introduction) explains how custom elements fit into the broader landscape of native web components and complement technologies like the Shadow DOM and `<template>` elements.
 
 [spec]: https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element
 [old spec]: https://www.w3.org/TR/custom-elements/
