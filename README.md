@@ -105,7 +105,7 @@ for that matter—**always design experiences for progressive enhancement**,
 and plan for the possibility that JavaScript isn't enabled or available.
 
 ## The API
-The custom elements API consists mainly of a [CustomElementsRegistry] object
+The custom elements API consists mainly of a [CustomElementRegistry] object
 that can be used to register class constructors for custom elements by name:
 
 ```js
@@ -244,7 +244,7 @@ class CustomElement extends HTMLElement {
 [W3C API Design Principles](https://w3ctag.github.io/design-principles/#api-surface).
 
 ## The Custom elements registry
-The [CustomElementsRegistry] object available at `window.customElements`
+The [CustomElementRegistry] object available at `window.customElements`
 has two additional methods for querying its state and responding to when
 specific custom elements are registered:
 
@@ -378,19 +378,21 @@ polyfill is what GitHub uses, and it provides a bunch of workarounds for the
 spec rules involving class constructors and the `new` keyword. You should use this!
 
 
+## Further reading
+* 
+
 [spec]: https://html.spec.whatwg.org/multipage/custom-elements.html#custom-element
 [old spec]: https://www.w3.org/TR/custom-elements/
 [v0 spec]: https://www.w3.org/TR/2016/WD-custom-elements-20160226/
 [caniuse]: https://caniuse.com/#feat=custom-elementsv1
 [HTMLElement]: https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement
-[CustomElementsRegistry]: https://www.w3.org/TR/custom-elements/#custom-elements-api
+[CustomElementRegistry]: https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry
 [Object.create]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create
 [aight]: https://github.com/shawnbot/aight
 [es5-shim]: https://github.com/es-shims/es5-shim
 [Chrome]: https://www.chromestatus.com/feature/4696261944934400
 [Firefox]: https://bugzilla.mozilla.org/show_bug.cgi?id=889230
 [Safari]: https://bugs.webkit.org/show_bug.cgi?id=150225
-[WebComponents.js]: https://github.com/webcomponents/webcomponentsjs
 [PhantomJS]: http://phantomjs.org/
 [CustomEvent]: https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent
 [attribute reflection]: https://github.com/domenic/webidl-html-reflector
