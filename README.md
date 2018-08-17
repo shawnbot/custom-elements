@@ -1,4 +1,4 @@
-# All about HTML Custom Elements (v1)
+# All about HTML Custom Elements
 Custom Elements is a [WHATWG] HTML [specification][spec] that
 provides a mechanism for defining new behaviors (such as dynamic
 content or interactivity) for HTML elements with custom names.
