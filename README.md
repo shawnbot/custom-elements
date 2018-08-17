@@ -398,3 +398,4 @@ spec rules involving class constructors and the `new` keyword. You should use th
 [custom element registry]: https://html.spec.whatwg.org/multipage/custom-elements.html#customized-built-in-element
 [WHATWG]: https://whatwg.org/faq#what-is-the-whatwg
 [customized built-ins]: https://html.spec.whatwg.org/multipage/custom-elements.html#customized-built-in-element
+[Babel]: http://babeljs.io/
