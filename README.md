@@ -355,7 +355,7 @@ or `super()` calls. There are a couple of ways to pull it off:
     {
       "presets": ["env"],
       "plugins": [
-        ""transform-custom-element-classes"
+        "transform-custom-element-classes"
       ]
     }
     ```
