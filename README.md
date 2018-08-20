@@ -168,8 +168,8 @@ and the following static (class) properties:
 
 ## Customized built-in elements
 
-⚠️ **Warning:** [Safari does not _yet_ implement][customized built-ins] this portion
-of the [spec]. If you wish to use it, you will need a [polyfill](#polyfills).
+⚠️ **Warning:** Safari does not _yet_ implement [this portion of the
+spec][customized built-ins]. If you wish to use it, you will need a [polyfill](#polyfills).
 
 Custom elements may extend built-in HTML elements with special
 semantics or behaviors (such as `<button>` or `<input>`). Here's how
