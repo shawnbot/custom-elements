@@ -91,14 +91,12 @@ different element _lifecycle events_:
 ## Browser Support
 As of summer 2018:
 
-* Chrome has [implemented][Chrome] both the [v0 spec],
-  and the adopted ("v1") [spec].
-* [Safari] has implemented so-called "autonomous" custom elements, but has
+* [Chrome has implemented][chrome] both the [v0 spec] and the adopted ["v1" spec][spec].
+* [Safari has implemented][safari] so-called "autonomous" custom elements, but has
   declined to support extension of built-in elements.
-* [Firefox] has implemented the spec behind a feature flag.
+* [Firefox has implemented][firefox] the spec behind a feature flag.
 
 Regardless of your support targets, you should use a [polyfill](#polyfills).
-As of summer 2018:Chrome has already [implemented][Chrome] both the [v0 spec],
 
 ⚠️ When using custom elements—or anything involving JavaScript,
 for that matter—**always design experiences for progressive enhancement**,
@@ -170,8 +168,8 @@ and the following static (class) properties:
 
 ## Customized built-in elements
 
-⚠️ **Warning:** Safari does not _yet_ implement [this portion][customized built-ins]
-of the [spec]. If you wish to use it, you will need a [polyfill](#polyfills).
+⚠️ **Warning:** Safari does not _yet_ implement [this portion of the
+spec][customized built-ins]. If you wish to use it, you will need a [polyfill](#polyfills).
 
 Custom elements may extend built-in HTML elements with special
 semantics or behaviors (such as `<button>` or `<input>`). Here's how
@@ -405,3 +403,4 @@ constructors and the `new` keyword. You should use it, too!
 [WHATWG]: https://whatwg.org/faq#what-is-the-whatwg
 [customized built-ins]: https://html.spec.whatwg.org/multipage/custom-elements.html#customized-built-in-element
 [Babel]: http://babeljs.io/
+[webcomponents/custom-elements]: https://github.com/webcomponents/custom-elements#readme
