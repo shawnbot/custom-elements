@@ -375,7 +375,10 @@ The semi-official [webcomponents/custom-elements] polyfill is what GitHub uses,
 and it provides a bunch of workarounds for the spec rules involving class
 constructors and the `new` keyword. You should use it, too!
 
-Unfortunately the custom element polyfill provided by `@webcomponents` does not support extended built-in custom elements, has this [known limitations](https://github.com/webcomponents/custom-elements#known-bugs-and-limitations) and [**is slow**](https://github.com/webcomponents/custom-elements#customelementspolyfillwrapflushcallback).
+**Please note:**
+- that extended built-in custom elements aren't supported,
+- [known limitations](https://github.com/webcomponents/custom-elements#known-bugs-and-limitations)
+- and [you may encounter slowness](https://github.com/webcomponents/custom-elements#customelementspolyfillwrapflushcallback).
 
 The most bullet proof and battle tested polyfills I found are provided by @WebReflection:
 - [document-register-element](https://github.com/WebReflection/document-register-element) (supports V1 despites it's name) has [fantastic browser support](https://github.com/WebReflection/document-register-element#tested-on) and a [public test page](http://webreflection.github.io/document-register-element/test/), please note the [`constructor` caveat](https://github.com/WebReflection/document-register-element#v1-caveat).
