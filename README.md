@@ -392,8 +392,8 @@ Be aware of:
 A stand-alone lightweight version of [Custom Elements V1](https://html.spec.whatwg.org/multipage/scripting.html#custom-elements)
 based on top, and compatible with, the battle-tested [Custom Elements V0](http://w3c.github.io/webcomponents/spec/custom/),
 already used in production with projects such as [Google AMP HTML ⚡](https://github.com/ampproject/amphtml#amp-html-) and others.
-- [WebReflection/document-register-element] (supports V1 despites it's name) has [fantastic browser support](https://github.com/WebReflection/document-register-element#tested-on) and a [public test page](http://webreflection.github.io/document-register-element/test/), please note the [`constructor` caveat](https://github.com/WebReflection/document-register-element#v1-caveat).
-- [built-in-element](https://github.com/ungap/custom-elements-builtin) again fantastic browser support and [live test page](https://ungap.github.io/custom-elements-builtin/test/es5/), please note the [`constructor` caveat](https://github.com/ungap/custom-elements-builtin#constructor-caveat).
+- [WebReflection/document-register-element] (supports V1 despites it's name) has [evergreen browser support](https://github.com/WebReflection/document-register-element#tested-on) and a [public test page](http://webreflection.github.io/document-register-element/test/), please note the [`constructor` caveat](https://github.com/WebReflection/document-register-element#v1-caveat).
+- [built-in-element](https://github.com/ungap/custom-elements-builtin) again evergreen browser support and [live test page](https://ungap.github.io/custom-elements-builtin/test/es5/), please note the [`constructor` caveat](https://github.com/ungap/custom-elements-builtin#constructor-caveat).
 - You need `ShadowDOM`? Works with [WebReflection/attachshadow](https://github.com/WebReflection/attachshadow)
 
 ## Further reading
