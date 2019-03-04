@@ -371,10 +371,30 @@ or `super()` calls. There are a couple of ways to pull it off:
     ```
 
 ## Polyfills
+
+Polyfilling custom elements and Web-Components in general is a very challanging task.
+Depending at your use case one of the following polyfill will suit you best,
+so please make sure to know their strong and weak parts.
+
+**@webcomponents**
+
 The semi-official [webcomponents/custom-elements] polyfill is what GitHub uses,
 and it provides a bunch of workarounds for the spec rules involving class
-constructors and the `new` keyword. You should use it, too!
+constructors and the `new` keyword.
+You need `ShadowDOM`? Works with [webcomponents/shadydom]
 
+Be aware of:
+- that extended built-in custom elements aren't supported,
+- [known limitations](https://github.com/webcomponents/custom-elements#known-bugs-and-limitations)
+
+**@WebReflection**
+
+A stand-alone lightweight version of [Custom Elements V1](https://html.spec.whatwg.org/multipage/scripting.html#custom-elements)
+based on top, and compatible with, the battle-tested [Custom Elements V0](http://w3c.github.io/webcomponents/spec/custom/),
+already used in production with projects such as [Google AMP HTML ⚡](https://github.com/ampproject/amphtml#amp-html-) and others.
+- [WebReflection/document-register-element] (supports V1 despites it's name) has [evergreen browser support](https://github.com/WebReflection/document-register-element#tested-on) and a [public test page](http://webreflection.github.io/document-register-element/test/), please note the [`constructor` caveat](https://github.com/WebReflection/document-register-element#v1-caveat).
+- [built-in-element](https://github.com/ungap/custom-elements-builtin) again [evergreen browser support](https://github.com/ungap/custom-elements-builtin#compatible-with-) and [live test page](https://ungap.github.io/custom-elements-builtin/test/es5/), please note the [`constructor` caveat](https://github.com/ungap/custom-elements-builtin#constructor-caveat).
+- You need `ShadowDOM`? Works with [WebReflection/attachshadow](https://github.com/WebReflection/attachshadow)
 
 ## Further reading
 * [Custom Elements v1: Reusable Web Components (Google)](https://developers.google.com/web/fundamentals/web-components/customelements) is a great introduction to custom elements.
